@@ -1,2 +1,8 @@
 ---
 # vars file for nfs
+
+nfs_server_ip:
+nfs_server_dir:
+
+nfs_client_ip:
+nfs_client_dir: 

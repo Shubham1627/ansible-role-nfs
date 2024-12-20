@@ -1,2 +1,10 @@
 ---
 # tasks file for nfs
+
+- name: Configure Server
+  import_task: nfs-server.yml
+  when: ansible_facts['distribution'] == 'RedHat'
+
+- name: Configure Client
+  import_task: nfs_client.yml
+  when: ansible_facts['distribution'] == 'RedHat'
