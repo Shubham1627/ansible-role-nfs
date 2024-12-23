@@ -1,0 +1,29 @@
+- name: Install necessary package
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nfs-utils
+    - firewalld
+
+
+- name: Ensure NFS and RPCBind services are started and enabled
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - nfs-server
+    - rpcbind
+
+
+- name: permit traffic in default zone for nfs service
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  loop:
+    - mountd
+    - rpc-bind
+    - nfs
+

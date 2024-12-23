@@ -3,21 +3,6 @@
   ansible.builtin.debug:
     msg: "NFS server: {{ nfs_server_ip }}"
 
-- name: Install necessary package
-  ansible.builtin.dnf:
-    name: nfs-utils
-    state: present
-
-
-- name: Ensure NFS and RPCBind services are started and enabled
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    state: started
-    enabled: true
-  loop:
-    - nfs-server
-    - rpcbind
- 
 - name: Create a directory on server
   ansible.builtin.file:
     path: "{{ nfs_server_dir }}"
@@ -32,16 +17,6 @@
 - name: Mount the file system
   ansible.builtin.command:
     cmd: exportfs -r
-
-- name: permit traffic in default zone for nfs service
-  ansible.posix.firewalld:
-    service: "{{ item }}"
-    permanent: true
-    state: enabled
-  loop:
-    - mountd
-    - rpc-bind
-    - nfs
 
 - name: Reloading firewalld
   ansible.builtin.service:

@@ -3,11 +3,6 @@
   ansible.builtin.debug:
     msg: "NFS client: {{ nfs_client_ip }}"
 
-- name: Install necessary package
-  ansible.builtin.dnf:
-    name: nfs-utils
-    state: present 
-
 - name: Verify NFS share
   ansible.builtin.command:
     name: "showmount -e {{ nfs_server_ip }}"
@@ -19,7 +14,10 @@
     path: "{{ nfs_client_dir }}"
     state: directory
     mode: '0777'
-    
+
 - name: Mount server with client
-  ansible.builtin.command:
-    cmd: "mount {{ nfs_server_ip }}:/{{ nfs_server_dir }} {{ nfs_client_dir }}"
+  ansible.posix.mount:
+    src: "{{ nfs_server_ip }}:{{ nfs_server_dir }}"
+    path: "{{ nfs_client_dir }}"
+    fstype: nfs
+    state: mounted
