@@ -1,38 +1,32 @@
-Role Name
-=========
+# NFS Configuration
 
-A brief description of the role goes here.
+NFS (Network File System) is a network file sharing protocol that defines the way files are stored and retrieved from storage devices across networks. This role is designed to automate the setup and configuration of NFS Server and Client.
 
-Requirements
-------------
+---
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+- At least two servers:
+  - One server for the **NFS server** setup.
+  - One or more servers for the **NFS client** setup.
+- Supported operating system:
+  - **RedHat-based distributions** (e.g., CentOS, RHEL).
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+---
 
-Dependencies
-------------
+## Role Variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The following variables can be defined for the role:
 
-Example Playbook
-----------------
+1. **Defined in `vars/main.yml`:**
+   - `nfs_server_ip` - The IP address of the NFS server.
+   - `nfs_server_dir` - The directory on the server that will be shared.
+   - `nfs_client_ip` - The IP address of the NFS client.
+   - `nfs_client_dir` - The directory on the client where the NFS share will be mounted.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+   Example:
+   ```yaml
+   nfs_server_ip: 192.168.1.10
+   nfs_server_dir: /nfs/server
+   nfs_client_ip: 192.168.1.20
+   nfs_client_dir: /nfs/client
